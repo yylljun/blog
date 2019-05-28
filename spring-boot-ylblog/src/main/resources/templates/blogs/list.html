@@ -1,0 +1,80 @@
+
+
+<div class="card-header bg-dark font-white">
+
+    <div class="input-group col-md-7 col-xl-6">
+
+        <input type="text" class="form-control" id="searchName"
+               placeholder="输入姓名称进行搜索"> <span class="input-group-btn">
+			<button class="btn btn-secondary" type="button" id="searchNameBtn">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</span> <a class="btn btn-primary" data-toggle="modal"
+                   data-target="#flipFlop" role="button" id="addUser"><i
+            class="fa fa-plus" aria-hidden="true"></i></a>
+
+    </div>
+</div>
+
+<div id="mainContainer" class="container">
+    <div id="mainContainerRepleace" class="row">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th data-field="id">ID</th>
+                <th data-field="title">标题</th>
+                <th data-field="username">作者</th>
+                <th data-field="createTime">时间</th>
+                <th data-field="operation">操作</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="blog : ${blogModel.blogList}">
+                <td th:text="${blog.id}">1</td>
+                <td><a th:href="'/u/' + ${blog.user.username} + '/blogs/' + ${blog.id}" target="_blank" th:text="${blog.title}"></a> </td>
+                <td><a th:href="'/u/' + ${blog.user.username} + '/blogs'" target="_blank" th:text="${blog.user.username}"></a></td>
+                <td th:text="${blog.createTime}">2019-05-17</td>
+                <td>
+                    <a class="blog-delete-blog" role="button" data-toggle="modal"
+                       data-target="#flipFlop"
+                       data-th-attr="blogId=${blog.id}"> <i class="fa fa-times"
+                                                            aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+        <div th:replace="~{fragments/page :: page}">...</div>
+
+    </div>
+</div>
+
+<!-- The modal -->
+<div class="modal fade" id="flipFlop" tabindex="-1" role="dialog"
+     aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalLabel">删除博客</h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body" id="userFormContainer"></div>
+            <div class="modal-footer">
+                <button class="btn btn-warning" data-dismiss="modal" id="submitDelBlog">删除</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="../../js/users/main.js" th:src="@{/blog/js/blogs/main.js}"></script>
+

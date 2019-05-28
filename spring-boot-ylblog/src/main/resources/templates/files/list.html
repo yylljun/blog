@@ -1,0 +1,99 @@
+<div class="card-header bg-dark font-white">
+
+    <div class="input-group col-md-7 col-xl-6">
+
+        <input type="text" class="form-control" id="searchName"
+               placeholder="输入文件名称进行搜索"> <span class="input-group-btn">
+			<button class="btn btn-secondary" type="button" id="searchNameBtn">
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</span>
+        </div>
+    <br>
+    <div class="input-group col-md-7 col-xl-6">
+    <!--<form method="POST" id="filedata" enctype="multipart/form-data" action="#" class="input-group col-md-7 col-xl-6">-->
+        <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+            <input type="file" class="form-control"  id="file1"/>
+            <input  type="button" class="btn btn-primary" id="uploadFile"/>
+    <!--</form>-->
+    </div>
+</div>
+
+<div id="mainContainer" class="container">
+
+    <div id="mainContainerRepleace" class="row">
+        <link rel="stylesheet" type="text/css" href="../css/base.css" th:href="@{/blog/css/base.css}"/>
+        <table class="table table-striped content">
+            <thead>
+            <tr>
+                <th data-field="id">ID</th>
+                <th data-field="username">文件名</th>
+                <th data-field="contentType">文件类型</th>
+                <th data-field="size">大小</th>
+                <th data-field="uploadDate">上传时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="file : ${fileModel.fileList}">
+                <td th:text="${file.id}">1</td>
+                <td th:text="${file.name}">1</td>
+                <td th:text="${file.contentType}">jpg</td>
+                <td th:text="${file.size}">1000</td>
+                <td th:text="${#dates.format(file.uploadDate, 'yyyy-MM-dd HH:mm')}">2019-05-16</td>
+                <td>
+
+                </td>
+                <td>
+                    <div>
+                        <!--<a th:href="'/files/view/' + ${file.id}" role="button"><i class="fa fa-eye" aria-hidden="true"></i></a>-->
+                        <a class="block__link" th:data-img="'/files/view/' + ${file.id}" data-fx="1"
+                           th:href="'/files/view/' + ${file.id}" target="_blank">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </a>
+                        <a class="blog-delete-file" role="button" data-toggle="modal"
+                           data-target="#flipFlop"
+                           data-th-attr="fileId=${file.id}"> <i class="fa fa-times"
+                                                                aria-hidden="true"></i>
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+        <div th:replace="~{fragments/page :: page}">...</div>
+        <script src="../../js/files/main.js" th:src="@{/blog/js/files/main.js}"></script>
+        <script src="../../js/imagesview/charming.min.js" th:src="@{/blog/js/imagesview/charming.min.js}"></script>
+        <script src="../../js/imagesview/imagesloaded.pkgd.min.js"
+                th:src="@{/blog/js/imagesview/imagesloaded.pkgd.min.js}"></script>
+        <script src="../../js/imagesview/TweenMax.min.js" th:src="@{/blog/js/imagesview/TweenMax.min.js}"></script>
+        <script src="../../js/imagesview/demo.js" th:src="@{/blog/js/imagesview/demo.js}"></script>
+    </div>
+</div>
+<div class="modal fade" id="flipFlop" tabindex="-1" role="dialog"
+     aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalLabel">删除图片</h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body" id="userFormContainer"></div>
+            <div class="modal-footer">
+                <button class="btn btn-warning" data-dismiss="modal" id="submitDelFile">删除</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JavaScript -->
+
+

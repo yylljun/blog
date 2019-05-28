@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header}">
+</head>
+<body>
+
+<div class="container blog-content-container">
+
+    <div class="row">
+
+        <!-- Blog Entries Column -->
+        <div class="col-md-8">
+
+            <!-- Blog Post -->
+            <div id="mainContainer">
+                <div id="mainContainerRepleace">
+                    <div class="card mb-4" th:each="blog : ${blogList}">
+                        <div class="card-block">
+                            <h2 class="card-title">
+                                <div style="float:left;">
+                                    <a href="/u/yljun" title="yljun"
+                                       th:href="'/u/' + ${blog.username}" th:title="${blog.username}">
+                                        <img src="/blog/images/avater-default.jpg"
+                                             th:src="${blog.avatar} == null
+										? '/blog/images/avater-default.jpg'
+										: ${blog.avatar}"
+                                             class="blog-avatar-50">
+                                    </a>&nbsp;
+                                </div>
+                                <div>
+                                    <a href="/u/yljun/blogs/1" class="card-link" title="waylau"
+                                       th:href="'/u/' + ${blog.username} + '/blogs/'+ ${blog.blogId}"
+                                       th:title="${blog.title}" th:text="${blog.title}"> 空空如也 </a>
+                                </div>
+                            </h2>
+                            <div class="card-title">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span th:text="${blog.summary}">空空如也</span>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="ml-3 mr-auto ">
+                                    &nbsp;&nbsp;
+                                    <a href="/u/waylau" th:href="'/u/' + ${blog.username}"
+                                       class="card-link" th:text=${blog.username}>yljun</a>
+                                    &nbsp;
+                                    <i class="fa fa-calendar"> [[${#dates.format(blog.createTime, 'yyyy-MM-dd
+                                        HH:mm')}]]</i>
+                                </div>
+                                <div class="ml-3">
+                                    <i class="fa fa-eye" aria-hidden="true">[[${blog.readSize}]]</i>
+                                    <i class="fa fa-thumbs-o-up" aria-hidden="true">[[${blog.voteSize}]]</i>
+                                    <i class="fa fa-comment-o" aria-hidden="true">[[${blog.commentSize}]]</i>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:replace="~{fragments/page :: page}">...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧栏目 -->
+        <div class="col-md-4">
+            <div>
+                <!-- 热门标签 -->
+                <div class="card ">
+                    <h5 class="card-header"><i class="fa fa-tags" aria-hidden="true"></i> 热门标签</h5>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a th:each="tag, tagStat : ${tags}" th:object="${tag}"
+                                   href="/blogs?keyword=1" th:href="'/blogs?keyword=' +  *{name}">
+									<span class="badge"
+                                          th:classappend="${tagStat.index} eq 0
+										? 'badge-danger': (${tagStat.index} eq 1
+										? 'badge-warning':(${tagStat.index} eq 2
+										? 'badge-info':'badge-secondary'))"
+                                          th:text="*{name}">Web Design</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 热门用户 -->
+                <div class="card my-4">
+                    <h5 class="card-header"><i class="fa fa-users" aria-hidden="true"></i> 热门用户</h5>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-lg-12">
+								<span th:each="user: ${users}" th:object="${user}">
+									<a
+                                            href="/u/waylau" th:href="'/u/' + *{username}" title="waylau"
+                                            th:title="*{username}"> <img
+                                            src="/blog/images/avatar-defualt.jpg"
+                                            th:src="*{avatar} == null ? '/blog/images/avater-default.jpg' : *{avatar}"
+                                            class="blog-avatar-50">
+									</a>
+								</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 热门文章 -->
+                <div class="card my-4">
+                    <h5 class="card-header"><i class="fa fa-fire" aria-hidden="true"></i> 热门文章</h5>
+
+                    <ul class="list-group" th:each="hotblog , hotblogStat : ${hotest}"
+                        th:object="${hotblog}">
+                        <a th:href="'/u/'+*{username} +'/blogs/'+ *{blogId}"
+                           class="list-group-item"> [[*{title}]] &nbsp;<span
+                                class="badge badge-pill"
+                                th:classappend="${hotblogStat.index} eq 0
+							? 'badge-danger': (${hotblogStat.index} eq 1
+							? 'badge-warning':(${hotblogStat.index} eq 2
+							? 'badge-info':'badge-secondary'))">[[*{readSize}]]</span>
+                        </a>
+                    </ul>
+
+                </div>
+
+                <!-- 最新发布 -->
+                <div class="card my-4">
+                    <h5 class="card-header"><i class="fa fa-line-chart" aria-hidden="true"></i> 最新发布</h5>
+                    <div class="list-group">
+                        <ul class="list-group" th:each="newblog : ${newest}"
+                            th:object="${newblog}">
+
+                            <a th:href="'/u/'+*{username} +'/blogs/'+ *{blogId}"
+                               class="list-group-item">[[*{title}]]
+                                <br>
+                                <span class="badge badge-pill badge-info"
+                                      th:text="*{#dates.format(createTime, 'yyyy-MM-dd HH:mm')}"></span>
+                            </a>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<footer th:replace="fragments/footer :: footer"></footer>
+<!-- JavaScript -->
+
+</body>
+</html>
