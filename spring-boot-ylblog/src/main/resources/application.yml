@@ -1,20 +1,16 @@
 server:
   port: 8080
   address: localhost
-#mymodo:
-#  port: 8080
-#  address: 39.108.208.15
 #热部署
 spring:
   thymeleaf:
     cache: false
 
   datasource:
-    url: jdbc:mysql://39.108.208.15:3306/blog
-    username: root
-    password: h19980906H.
+    url: jdbc:mysql://x.x.x.x:3306/blog
+    username: xx
+    password: xx
     driver-class-name: com.mysql.jdbc.Driver
-  #jap配置  jdbc:mysql://39.108.208.15:3306/blog
   jpa:
     hibernate:
       ddl-auto: update  #更新数据库
@@ -29,12 +25,8 @@ spring:
 
   data:
     elasticsearch:
-      cluster-nodes: 39.108.208.15:9300
+      cluster-nodes: x.x.x.x:9300
       cluster-name: elasticsearch
       repositories:
         enabled: true
-#
-#    mongodb:
-#      uri: mongodb://39.108.208.15:27017/test
-#spring.data.mongodb.uri=mongodb://name:pass@localhost:27017/dbname
 
